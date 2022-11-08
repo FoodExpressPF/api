@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { Foods, Type } = require("../db");
+const { Foods } = require("../db");
 
 const getApi = async () => {
   const api = await axios.get(
@@ -20,15 +20,7 @@ const getApi = async () => {
   return await inf;
 };
 const getDb = async () => {
-  return await Foods.findAll({
-    include: {
-      model: Type,
-      attributes: ["name"],
-      through: {
-        attributes: [],
-      },
-    },
-  });
+  return await Foods.findAll();
 };
 const getAll = async () => {
   const apiInf = await getApi();
@@ -41,46 +33,15 @@ const getAll = async () => {
       description: el.description,
       rating: el.rating,
       image: el.url,
-      type: el.type
-        .map((typ) => {
-          return typ.name;
-        })
-        .join(", "),
+      type: el.type,
     };
   });
   const allInf = apiInf.concat(dbInf);
   return allInf;
 };
 
-const getInfTypes = async () => {
-  const api = await axios.get(
-    `https://foods-98ee3-default-rtdb.firebaseio.com/Foods.json`
-  );
-  const inf = await api.data;
-  const types = inf
-    .map((food) => food.types)
-    .join() //unir
-    .split(",") //arr
-    .sort(); //ord
-
-  await types
-    .filter((t, i) => types.indexOf(t) === i)
-    .forEach(
-      (t) =>
-        t.trim() !== "" &&
-        types.findOrCreate({
-          where: {
-            name: t.trim(),
-          },
-        })
-    );
-
-  const alltypes = await types.findAll({ order: [["name"]] });
-  return alltypes;
-};
 module.exports = {
   getAll,
   getApi,
   getDb,
-  getInfTypes,
 };
