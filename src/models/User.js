@@ -30,7 +30,7 @@ module.exports = (sequelize) => {
       defaultValue: true,
     },
     type_user: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM("Admin", "Client"),
       allowNull: false,
     },
   });
