@@ -33,7 +33,7 @@ const getAll = async () => {
       price: el.price,
       description: el.description,
       rating: el.rating,
-      image: el.url,
+      image: el.image,
       type: el.type,
       offer: el.offer,
     };

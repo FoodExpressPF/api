@@ -2,6 +2,7 @@ const { Router } = require("express");
 const { Foods } = require("../db");
 const { getAll } = require("./Functions");
 const router = Router();
+const {cloudinary} = require('../utils/cloudinary');
 const {
   ReasonPhrases,
   StatusCodes,
@@ -12,7 +13,7 @@ const {cloudinary} = require('../utils/cloudinary')
 
 router.post("/", async (req, res) => {
   try {
-    const { name, price, description, rating, type, type_user } = req.body;
+    const { name, price, description, rating, type, type_user, offer } = req.body;
     const encodedImage = req.body.image
 
     console.log('prueba',req.body)
