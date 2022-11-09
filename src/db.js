@@ -47,7 +47,7 @@ Reviews.hasOne(Foods, { through: "Food_review" });
 Foods.belongsToMany(Reviews, { through: "Food_review" });
 
 Foods.belongsToMany(User, { through: "Favorites" });
-User.belongsToMany(Foods, { through: "Favorites" }); //food-user
+User.belongsToMany(Foods, { through: "Favorites" });
 
 Table.belongsToMany(Foods, { through: "Table-food" });
 Foods.belongsToMany(Table, { through: "Table-food" });
