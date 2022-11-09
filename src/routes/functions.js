@@ -42,8 +42,71 @@ const getAll = async () => {
   return allInf;
 };
 
+const filterRating = (foods, order) => {
+  const filtered = foods.sort((first, second) => {
+    if (parseFloat(first.rating) > parseFloat(second.rating)) {
+      return 1;
+    }
+    if (parseFloat(second.rating) > parseFloat(first.rating)) {
+      return -1;
+    }
+    return 0;
+  });
+  return order === "lowest rating" ? filtered : filtered.reverse();
+};
+const filterPrice = async (foods, order) => {
+  const filtered = foods.sort((first, second) => {
+    if (parseInt(first.price) > parseInt(second.price)) {
+      return 1;
+    }
+    if (parseInt(second.price) > parseInt(first.price)) {
+      return -1;
+    }
+    return 0;
+  });
+
+  return order === "lower price" ? filtered : filtered.reverse();
+};
+const filterOffer = (foods, order) => {
+  if (order == "true") {
+    const filtered = foods.filter((food) => food.offer == true);
+    if (filtered.length !== 0) {
+      return filtered;
+    }
+  } else {
+    const filtered = foods.filter((food) => food.offer == false);
+    if (filtered.length !== 0) {
+      return filtered;
+    }
+  }
+};
+const filterAlphabetical = (foods, order) => {
+  const alphabetical = foods.sort((first, second) => {
+    if (first.name.toUpperCase() > second.name.toUpperCase()) {
+      return 1;
+    }
+    if (second.name.toUpperCase() > first.name.toUpperCase()) {
+      return -1;
+    }
+    return 0;
+  });
+
+  if (order === "A-Z") return alphabetical;
+  else return alphabetical.reverse();
+};
+
+const filterType = (foods, order) => {
+  const filtered = foods.filter((food) => food.type.includes(order));
+  return filtered;
+};
+
 module.exports = {
   getAll,
   getApi,
   getDb,
+  filterRating,
+  filterPrice,
+  filterOffer,
+  filterAlphabetical,
+  filterType,
 };
