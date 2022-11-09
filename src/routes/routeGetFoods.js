@@ -1,5 +1,11 @@
 const { Router } = require("express");
 const { getAll } = require("./Functions");
+const {
+  ReasonPhrases,
+  StatusCodes,
+  getReasonPhrase,
+  getStatusCode,
+} = require("http-status-codes");
 
 const router = Router();
 
@@ -12,15 +18,15 @@ router.get("/", async (req, res) => {
         food.name.toLowerCase().includes(name.toLowerCase())
       );
       if (search.length !== 0) {
-        return res.status(200).json(search);
+        return res.status(StatusCodes.OK).json(search);
       } else {
-        res.status(404).send("dish not found");
+        res.status(StatusCodes.NOT_FOUND).send("dish not found");
       }
     } else {
-      return res.status(200).json(all);
+      return res.status(StatusCodes.OK).json(all);
     }
   } catch (error) {
-    res.status(404).json({ error: error.message });
+    res.status(StatusCodes.NOT_FOUND).json({ error: error.message });
   }
 });
 
@@ -32,13 +38,13 @@ router.get("/:id", async (req, res) => {
       const searchId = await all.filter((food) => food.id == id);
 
       if (searchId.length !== 0) {
-        return res.status(200).json(searchId);
+        return res.status(StatusCodes.OK).json(searchId);
       } else {
-        res.status(404).send("Sorry your dog not found");
+        res.status(StatusCodes.NOT_FOUND).send("Sorry your dog not found");
       }
     }
   } catch (error) {
-    res.status(404).json({ error: error.message });
+    res.status(StatusCodes.NOT_FOUND).json({ error: error.message });
   }
 });
 

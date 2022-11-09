@@ -2,11 +2,16 @@ const { Router } = require("express");
 const { Foods } = require("../db");
 const { getAll } = require("./Functions");
 const router = Router();
+const {
+  ReasonPhrases,
+  StatusCodes,
+  getReasonPhrase,
+  getStatusCode,
+} = require("http-status-codes");
 
 router.post("/", async (req, res) => {
   try {
-    const { name, price, description, rating, type, type_user } =
-      req.body;
+    const { name, price, description, rating, type, type_user } = req.body;
     const encodedImage = req.body.image
 
     if (type_user == "Admin") {
@@ -28,21 +33,24 @@ router.post("/", async (req, res) => {
           rating,
           image,
           type,
+          offer,
         });
 
-        res.status(201).json({ success: "Food succesfully created!" });
+        res
+          .status(StatusCodes.CREATED)
+          .json({ success: "Food succesfully created!" });
       } else {
         res
-          .status(201)
+          .status(StatusCodes.BAD_REQUEST)
           .json({ success: "the name entered already exists in the database" });
       }
     } else {
       res
-        .status(201)
+        .status(StatusCodes.LOCKED)
         .json({ success: "Function only enabled for administrators" });
     }
   } catch (error) {
-    res.status(404).json({ error: error.message });
+    res.status(StatusCodes.NOT_FOUND).json({ error: error.message });
   }
 });
 module.exports = router;
