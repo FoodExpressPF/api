@@ -29,7 +29,13 @@ module.exports = (sequelize) => {
       allowNull: true,
     },
     type: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM(
+        "Gluten Free",
+        "Vegetarian",
+        "Vegan",
+        "Protein",
+        "Others"
+      ),
       allowNull: false,
     },
     offer: {
