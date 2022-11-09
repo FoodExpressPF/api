@@ -9,7 +9,6 @@ const {
   getReasonPhrase,
   getStatusCode,
 } = require("http-status-codes");
-const {cloudinary} = require('../utils/cloudinary')
 
 router.post("/", async (req, res) => {
   try {
