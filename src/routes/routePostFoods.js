@@ -8,11 +8,14 @@ const {
   getReasonPhrase,
   getStatusCode,
 } = require("http-status-codes");
+const {cloudinary} = require('../utils/cloudinary')
 
 router.post("/", async (req, res) => {
   try {
     const { name, price, description, rating, type, type_user } = req.body;
     const encodedImage = req.body.image
+
+    console.log('prueba',req.body)
 
     if (type_user == "Admin") {
       const exists = await getAll();
@@ -25,6 +28,7 @@ router.post("/", async (req, res) => {
        .upload(encodedImage, {upload_preset: 'foodExpress'})
       const image = loadedImage.url
 
+
       if (check.length == 0) {
         await Foods.create({
           name,
@@ -33,7 +37,7 @@ router.post("/", async (req, res) => {
           rating,
           image,
           type,
-          offer,
+          offer:false,
         });
 
         res
