@@ -15,6 +15,7 @@ const getApi = async () => {
       image: food.url,
       type: food.type,
       reviews: food.reviews,
+      offer: food.offer,
     };
   });
   return await inf;
@@ -34,6 +35,7 @@ const getAll = async () => {
       rating: el.rating,
       image: el.url,
       type: el.type,
+      offer: el.offer,
     };
   });
   const allInf = apiInf.concat(dbInf);
