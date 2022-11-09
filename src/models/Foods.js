@@ -20,13 +20,28 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    raiting: {
+    rating: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     image: {
       type: DataTypes.TEXT,
       allowNull: true,
+    },
+    type: {
+      type: DataTypes.ENUM(
+        "Gluten Free",
+        "Vegetarian",
+        "Vegan",
+        "Protein",
+        "Others"
+      ),
+      allowNull: false,
+    },
+    offer: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
   });
 };

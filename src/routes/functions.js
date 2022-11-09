@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { Foods, Type } = require("../db");
+const { Foods } = require("../db");
 
 const getApi = async () => {
   const api = await axios.get(
@@ -15,20 +15,13 @@ const getApi = async () => {
       image: food.url,
       type: food.type,
       reviews: food.reviews,
+      offer: food.offer,
     };
   });
   return await inf;
 };
 const getDb = async () => {
-  return await Foods.findAll({
-    include: {
-      model: Type,
-      attributes: ["name"],
-      through: {
-        attributes: [],
-      },
-    },
-  });
+  return await Foods.findAll();
 };
 const getAll = async () => {
   const apiInf = await getApi();
@@ -41,46 +34,79 @@ const getAll = async () => {
       description: el.description,
       rating: el.rating,
       image: el.url,
-      type: el.type
-        .map((typ) => {
-          return typ.name;
-        })
-        .join(", "),
+      type: el.type,
+      offer: el.offer,
     };
   });
   const allInf = apiInf.concat(dbInf);
   return allInf;
 };
 
-const getInfTypes = async () => {
-  const api = await axios.get(
-    `https://foods-98ee3-default-rtdb.firebaseio.com/Foods.json`
-  );
-  const inf = await api.data;
-  const types = inf
-    .map((food) => food.types)
-    .join() //unir
-    .split(",") //arr
-    .sort(); //ord
-
-  await types
-    .filter((t, i) => types.indexOf(t) === i)
-    .forEach(
-      (t) =>
-        t.trim() !== "" &&
-        types.findOrCreate({
-          where: {
-            name: t.trim(),
-          },
-        })
-    );
-
-  const alltypes = await types.findAll({ order: [["name"]] });
-  return alltypes;
+const filterRating = (foods, order) => {
+  const filtered = foods.sort((first, second) => {
+    if (parseFloat(first.rating) > parseFloat(second.rating)) {
+      return 1;
+    }
+    if (parseFloat(second.rating) > parseFloat(first.rating)) {
+      return -1;
+    }
+    return 0;
+  });
+  return order === "lowest rating" ? filtered : filtered.reverse();
 };
+const filterPrice = async (foods, order) => {
+  const filtered = foods.sort((first, second) => {
+    if (parseInt(first.price) > parseInt(second.price)) {
+      return 1;
+    }
+    if (parseInt(second.price) > parseInt(first.price)) {
+      return -1;
+    }
+    return 0;
+  });
+
+  return order === "lower price" ? filtered : filtered.reverse();
+};
+const filterOffer = (foods, order) => {
+  if (order == "true") {
+    const filtered = foods.filter((food) => food.offer == true);
+    if (filtered.length !== 0) {
+      return filtered;
+    }
+  } else {
+    const filtered = foods.filter((food) => food.offer == false);
+    if (filtered.length !== 0) {
+      return filtered;
+    }
+  }
+};
+const filterAlphabetical = (foods, order) => {
+  const alphabetical = foods.sort((first, second) => {
+    if (first.name.toUpperCase() > second.name.toUpperCase()) {
+      return 1;
+    }
+    if (second.name.toUpperCase() > first.name.toUpperCase()) {
+      return -1;
+    }
+    return 0;
+  });
+
+  if (order === "A-Z") return alphabetical;
+  else return alphabetical.reverse();
+};
+
+const filterType = (foods, order) => {
+  const filtered = foods.filter((food) => food.type.includes(order));
+  return filtered;
+};
+
 module.exports = {
   getAll,
   getApi,
   getDb,
-  getInfTypes,
+  filterRating,
+  filterPrice,
+  filterOffer,
+  filterAlphabetical,
+  filterType,
 };
