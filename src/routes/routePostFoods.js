@@ -11,13 +11,19 @@ const {
 
 router.post("/", async (req, res) => {
   try {
-    const { name, price, description, rating, image, type, offer, type_user } =
-      req.body;
+    const { name, price, description, rating, type, type_user } = req.body;
+    const encodedImage = req.body.image
+
     if (type_user == "Admin") {
       const exists = await getAll();
       const check = await exists.filter((food) => {
         if (food.name == name) return name;
       });
+
+      //Cloudinary implementation
+      const loadedImage = await cloudinary.uploader
+       .upload(encodedImage, {upload_preset: 'foodExpress'})
+      const image = loadedImage.url
 
       if (check.length == 0) {
         await Foods.create({
