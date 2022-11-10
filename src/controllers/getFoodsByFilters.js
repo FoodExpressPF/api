@@ -30,7 +30,6 @@ const getFoodsByFilters = async ({
     const allFoods = await getAllFoods();
     //const allFoods = await Foods.findAll();
     let filteredFoods = [...allFoods];
-
     if(!!id) return allFoods.find(food => food.id === id);
     
     if(!!name) filteredFoods = filteredFoods.filter(food => {

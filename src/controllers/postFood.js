@@ -2,7 +2,7 @@ const { StatusCodes } = require("http-status-codes");
 const { cloudinary } = require("../utils/cloudinary");
 const { Foods } = require("../db");
 
-const postFood = ({
+const postFood = async ({
   name,
   price,
   description,

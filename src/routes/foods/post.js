@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { StatusCodes } = require("http-status-codes");
-const postFood = require("../controllers/postFood.js");
+const postFood = require("../../controllers/postFood.js");
 
 router.post("/", async (req, res) => {
   const { type_user } = req.body;

@@ -1,12 +1,12 @@
 const router = require("express").Router();
 const { ReasonPhrases, StatusCodes } = require("http-status-codes");
-const getFoodsByFilters = require("../controllers/getFoodsByFilters.js");
+const getFoodsByFilters = require("../../controllers/getFoodsByFilters.js");
 
 router.get("/", async (req, res) => {
   const filters = req.query;
 
   try {
-    const foods = getFoodsByFilters(filters);
+    const foods = await getFoodsByFilters(filters);
 
     if(!foods.length) throw {
       status: StatusCodes.NOT_FOUND,
