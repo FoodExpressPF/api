@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { ReasonPhrases, StatusCodes } = require("http-status-codes");
-const getFoodsByFilters = require("../utils/getFoods.js");
+const getFoodsByFilters = require("../controllers/getFoodsByFilters.js");
 
 router.get("/", async (req, res) => {
   const filters = req.query;
