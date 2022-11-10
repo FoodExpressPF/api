@@ -4,9 +4,8 @@ const fs = require("fs");
 const path = require("path");
 const { DB_USER, DB_PASSWORD, DB_HOST } = process.env;
 
-
 const sequelize = new Sequelize(
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/foods`,
+  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/food_express?ssl=true`,
   {
     logging: false, // set to console.log to see the raw SQL queries
     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
@@ -36,15 +35,22 @@ let capsEntries = entries.map((entry) => [
 ]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-// En sequelize.models están todos los modelos importados como propiedades
-// Para relacionarlos hacemos un destructuring
-const { Foods, Reviews, User, Order } = sequelize.models;
+const { Foods, Reviews, User, Table, Order } = sequelize.models;
 
 Order.belongsTo(User);
 User.hasMany(Order);
 
-Order.belongsToMany(Foods, { through: 'Foods_Order' });
-Foods.belongsToMany(Order, { through: 'Foods_Order' });
+Order.belongsToMany(Foods, { through: "Foods_Order" });
+Foods.belongsToMany(Order, { through: "Foods_Order" });
+
+Reviews.hasOne(Foods, { through: "Food_review" });
+Foods.belongsToMany(Reviews, { through: "Food_review" });
+
+Foods.belongsToMany(User, { through: "Favorites" });
+User.belongsToMany(Foods, { through: "Favorites" });
+
+Table.belongsToMany(Foods, { through: "Table-food" });
+Foods.belongsToMany(Table, { through: "Table-food" });
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
