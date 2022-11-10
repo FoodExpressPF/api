@@ -30,7 +30,8 @@ router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const foods = getFoodsByFilters({id});
+    
+    const foods = await getFoodsByFilters({id});
 
     if(!foods.length) throw {
       status: StatusCodes.NOT_FOUND,
