@@ -25,12 +25,15 @@ const getFoodsByFilters = async ({
   sortby,
   asc,
 }) => {
-
+  
   try {
     const allFoods = await getAllFoods();
     //const allFoods = await Foods.findAll();
     let filteredFoods = [...allFoods];
-    if(!!id) return allFoods.find(food => food.id === id);
+    if(!!id) {
+      const foundFood = allFoods.find(food => food.id === parseInt(id));
+      return [foundFood];
+    }
     
     if(!!name) filteredFoods = filteredFoods.filter(food => {
       const foodName = food.name.toUpperCase();
@@ -38,7 +41,7 @@ const getFoodsByFilters = async ({
     });
 
     if(!!type) filteredFoods = filteredFoods.filter(food => {
-      return food.type.includes(order);
+      return food.type.includes(type);
     });
     
     switch (offer) {
