@@ -1,5 +1,5 @@
-const { Foods } = require("../db");
 const { StatusCodes } = require('http-status-codes');
+const { Foods } = require("../db");
 const callApi = require("../utils/callApi.js");
 
 const getAllFoods = async () => {
