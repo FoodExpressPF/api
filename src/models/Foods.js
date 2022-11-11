@@ -13,7 +13,7 @@ module.exports = (sequelize) => {
       primaryKey: true,
     },
     price: {
-      type: DataTypes.STRING,
+      type: DataTypes.FLOAT,
       allowNull: false,
     },
     description: {
@@ -21,7 +21,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     rating: {
-      type: DataTypes.STRING,
+      type: DataTypes.FLOAT,
       allowNull: false,
     },
     image: {
