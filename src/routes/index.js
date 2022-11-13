@@ -1,18 +1,17 @@
-const { Router } = require("express");
-const routerGFood = require("./routeGetFoods");
-const routerPFood = require("./routePostFoods");
+const router = require("express").Router();
 
-const filter = require("./filter");
+const getFoods = require("./foods/get.js");
+const postFoods = require("./foods/post.js");
+const postUser = require("./user/post.js");
+const getUser = require("./user/get.js");
+const deleteUser = require("./user/delete.js");
+const updateUser = require("./user/update.js");
 
-// Importar todos los routers;
-// Ejemplo: const authRouter = require('./auth.js');
-
-const router = Router();
-
-// Configurar los routers
-// Ejemplo: router.use('/auth', authRouter);
-router.use("/foods", routerGFood);
-router.use("/createFood", routerPFood);
-router.use("/filter", filter); //http://localhost:3001/filterRating?order=----------------
+router.use("/foods", getFoods);
+router.use("/foods/create", postFoods);
+router.use("/user/create", postUser);
+router.use("/user/delete", deleteUser);
+router.use("/user", getUser);
+router.use("/user/update", updateUser);
 
 module.exports = router;
