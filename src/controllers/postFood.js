@@ -13,13 +13,15 @@ const postFood = async ({
 }) => {
   
   try {
-    if(!name || !price || !description  || !image || !type) throw {
+
+    if(!name || !price || !description || !image || !type) throw {
       status: StatusCodes.BAD_REQUEST,
       reason: "Some info is missing",
     };
 
     const isRepeat = await Foods.findOne({where: {name: name}});
     if(isRepeat) throw {
+
       status: StatusCodes.CONFLICT,
       reason: "The name entered already exists in the database",
     };
