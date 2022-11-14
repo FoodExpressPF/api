@@ -1,26 +1,9 @@
 const { StatusCodes } = require("http-status-codes");
 const { Foods } = require("../db");
-const callApi = require("../utils/callApi.js");
-
-const getAllFoods = async () => {
-  // temporal function
-  try {
-    const foodApi = await callApi();
-    const foodDb = await Foods.findAll();
-    const allFoods = [...foodDb, ...foodApi];
-    return allFoods;
-  } catch (error) {
-    throw {
-      status: error.status || StatusCodes.BAD_REQUEST,
-      reason: error.reason || error,
-    };
-  }
-};
 
 const getFoodsByFilters = async ({ id, name, type, offer, sortby, asc }) => {
   try {
-    const allFoods = await getAllFoods();
-    //const allFoods = await Foods.findAll();
+    const allFoods = await Foods.findAll();
     let filteredFoods = [...allFoods];
     if (!!id) {
       const foundFood = allFoods.find((food) => food.id == id);
@@ -49,7 +32,7 @@ const getFoodsByFilters = async ({ id, name, type, offer, sortby, asc }) => {
 
     switch (sortby) {
       case "price":
-        filteredFoods = filteredFoods.sort(a.price - b.price);
+        filteredFoods = filteredFoods.sort((a,b) => a.price - b.price);
         break;
       case "rating":
         filteredFoods = filteredFoods.sort((a, b) => a.rating - b.rating);
