@@ -13,20 +13,35 @@ module.exports = (sequelize) => {
       primaryKey: true,
     },
     price: {
-      type: DataTypes.STRING,
+      type: DataTypes.FLOAT,
       allowNull: false,
     },
     description: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    raiting: {
-      type: DataTypes.STRING,
+    rating: {
+      type: DataTypes.FLOAT,
       allowNull: false,
     },
     image: {
       type: DataTypes.TEXT,
       allowNull: true,
+    },
+    type: {
+      type: DataTypes.ENUM(
+        "Gluten Free",
+        "Vegetarian",
+        "Vegan",
+        "Protein",
+        "Others"
+      ),
+      allowNull: false,
+    },
+    offer: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
   });
 };
