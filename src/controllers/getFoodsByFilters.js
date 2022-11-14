@@ -55,7 +55,7 @@ const getFoodsByFilters = async ({
 
     switch (sortby) {
       case "price":
-        filteredFoods = filteredFoods.sort(
+        filteredFoods = filteredFoods.sort((a,b) =>
           a.price - b.price
         ); break;
       case "rating":
