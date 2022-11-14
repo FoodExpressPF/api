@@ -1,21 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
 const { Foods } = require("../db");
-const callApi = require("../utils/callApi.js");
-
-const getAllFoods = async () => {
-  // temporal function
-  try{
-    const foodApi = await callApi();
-    const foodDb = await Foods.findAll();
-    const allFoods = [...foodDb, ...foodApi];
-    return allFoods;
-  } catch (error) {
-    throw {
-      status: error.status || StatusCodes.BAD_REQUEST,
-      reason: error.reason || error,
-    }
-  }
-}
 
 const getFoodsByFilters = async ({
   id,
@@ -27,11 +11,11 @@ const getFoodsByFilters = async ({
 }) => {
   
   try {
-    const allFoods = await getAllFoods();
-    //const allFoods = await Foods.findAll();
+    const allFoods = await Foods.findAll();
     let filteredFoods = [...allFoods];
     if(!!id) {
       const foundFood = allFoods.find(food => food.id === parseInt(id));
+      console.log(foundFood)
       return [foundFood];
     }
     
