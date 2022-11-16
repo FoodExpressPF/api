@@ -9,13 +9,13 @@ const postFood = async ({
   rating,
   image,
   type,
-  productType,
+  category,
   offer,
 }) => {
   
   try {
 
-    if(!name || !price || !description || !image || !type || productType) throw {
+    if(!name || !price || !description || !image || !type || !category) throw {
       status: StatusCodes.BAD_REQUEST,
       reason: "Some info is missing",
     };
@@ -38,7 +38,7 @@ const postFood = async ({
       rating: parseFloat(rating),
       image: loadedImage.url,
       type,
-      productType,
+      category,
       offer,
     });
 
