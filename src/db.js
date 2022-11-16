@@ -52,6 +52,7 @@ User.belongsToMany(Foods, { through: "Favorites" });
 Table.belongsToMany(Foods, { through: "Table-food" });
 Foods.belongsToMany(Table, { through: "Table-food" });
 
+
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize, // para importart la conexión { conn } = require('./db.js');

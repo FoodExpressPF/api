@@ -32,9 +32,9 @@ const postFood = async ({
 
     await Foods.create({
       name,
-      price,
+      price: parseFloat(price),
       description,
-      rating,
+      rating: parseFloat(rating),
       image: loadedImage.url,
       type,
       offer,

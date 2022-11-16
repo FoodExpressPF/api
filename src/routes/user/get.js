@@ -1,6 +1,7 @@
 const router = require("express").Router();
-const { User } = require('../../db');
+const { User} = require('../../db');
 const { ReasonPhrases, StatusCodes } = require("http-status-codes");
+
 
 router.get("/", async(req, res)=>{
     const {email} = req.body;
@@ -15,5 +16,5 @@ router.get("/", async(req, res)=>{
 });
 
 
-
+ 
 module.exports = router;
