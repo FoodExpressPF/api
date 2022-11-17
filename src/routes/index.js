@@ -16,6 +16,8 @@ const PaymentInstance = new PaymentController(new PaymentService());
 
 const nodemailer = require("nodemailer");
 
+const createPayment = require("../controllers/paypal.js");
+
 router.use("/foods", getFoods);
 router.use("/foods/create", postFoods);
 router.use("/user/create", postUser);
@@ -25,6 +27,8 @@ router.use("/user/update", updateUser);
 router.use("/favorites/get", getFavorites);
 router.use("/favorites/put", putFavorites);
 router.use("/favorites/delete", deleteFavorites);
+
+router.post(`/paypal`, createPayment);
 
 router.post("/payment", function (req, res, next) {
   PaymentInstance.getPaymentLink(req, res); //recibir items del front, al controller y finalmente al utils
