@@ -1,22 +1,25 @@
 const router = require("express").Router();
 
-const getFoods = require("./foods/get.js");
-const postFoods = require("./foods/post.js");
-const postUser = require("./user/post.js");
-const getUser = require("./user/get.js");
-const deleteUser = require("./user/delete.js");
-const updateUser = require("./user/update.js");
-const getFavorites = require("./favorites/get.js");
-const putFavorites = require("./favorites/put.js");
-const deleteFavorites = require("./favorites/delete.js");
+const foodsRoute = require("./foods/index.js");
+const userRoute = require("./user/index.js");
+const favoritesRoute = require("./favorites/index.js");
+const sendEmailRoute = require("./send-email/index.js");
 
-router.use("/foods", getFoods);
-router.use("/foods/create", postFoods);
-router.use("/user/create", postUser);
-router.use("/user/delete", deleteUser);
-router.use("/user", getUser);
-router.use("/user/update", updateUser);
-router.use("/favorites/get", getFavorites);
-router.use("/favorites/put", putFavorites);
-router.use("/favorites/delete", deleteFavorites);
+const PaymentController = require("../controllers/PaymentController");
+const PaymentService = require("../utils/PaymentService");
+const PaymentInstance = new PaymentController(new PaymentService());
+
+const createPayment = require("../controllers/paypal.js");
+
+router.use("/foods", foodsRoute);
+router.use("/user", userRoute);
+router.use("/favorites", favoritesRoute);
+router.use("/send-email", sendEmailRoute)
+
+router.post(`/paypal`, createPayment);
+
+router.post("/payment", function (req, res, next) {
+  PaymentInstance.getPaymentLink(req, res); //recibir items del front, al controller y finalmente al utils
+});
+
 module.exports = router;
