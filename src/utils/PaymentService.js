@@ -18,9 +18,9 @@ class PaymentService {
         },
       ],
       back_urls: {
-        failure: "/failure",
+        failure: "http://localhost:3000/denegated",
         pending: "/pending",
-        success: "/succes",
+        success: "http://localhost:3000/passed",
       },
     };
 

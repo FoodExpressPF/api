@@ -30,8 +30,8 @@ const createPayment = (req, res) => {
       brand_name: `FoodExpress.app`,
       landing_page: "NO_PREFERENCE",
       user_action: "PAY_NOW",
-      return_url: `http://localhost:3000/execute-payment`, // Url despues de realizar el pago
-      cancel_url: `http://localhost:3000/cancel-payment`, // Url despues de realizar el pago
+      return_url: `http://localhost:3000/passed`, // Url despues de realizar el pago
+      cancel_url: `http://localhost:3000/denegated`, // Url despues de realizar el pago
     },
   };
 
