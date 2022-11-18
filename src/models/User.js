@@ -26,15 +26,11 @@ module.exports = (sequelize) => {
     },
     direction: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: [1]
-      }
+      allowNull: true,
     },
     number_phone: {
       type: DataTypes.STRING,
       allowNull: true,
-      unique: true
     },
     visible: {
       type: DataTypes.BOOLEAN,

@@ -4,18 +4,19 @@ const postUser  = require('../../controllers/postUser');
 const { ReasonPhrases, StatusCodes } = require("http-status-codes");
 
 router.post("/", async(req, res)=>{
-    const {name, email, direction, number_phone } = req.body;
+    const {name, email} = req.body;
 
     try {
-        await postUser(email);
-        const newUser = await User.create({
-            name: name,
+        
+        const newUser = await User.findOrCreate({where: {email: email},
+            defaults: {name: name,
             email: email,
-            direction: direction,
-            number_phone: number_phone,
-            type_user : 'Client'
+            direction: '-',
+            number_phone: '-',
+            type_user : 'Client'}
         });
-        res.status(StatusCodes.CREATED).json({created: "ok", ...newUser.dataValues});
+        res.status(StatusCodes.ACCEPTED).json({
+            created: newUser[1] ? 'User created' : 'User already created', user: newUser[0]});
     } catch (error) {
         res.status(StatusCodes.BAD_REQUEST).json({error});
     }
