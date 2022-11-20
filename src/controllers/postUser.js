@@ -10,4 +10,5 @@ const postUser = async(email)=>{
         throw({reason: error.reason, status: error.status});
     }
 };
+
 module.exports = postUser;
