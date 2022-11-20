@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 const morgan = require('morgan');
 
-const CLIENT_URL = require("./utils/envs.js");
+const { CLIENT_URL } = require("./utils/envs.js");
 
 require('./db.js');
 const routes = require('./routes/index.js');

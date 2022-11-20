@@ -1,7 +1,12 @@
 const router = require("express").Router();
-const CLIENT_URL = require("../../utils/envs.js");
+const request = require("request");
+const { StatusCodes } = require("http-status-codes");
+const {
+  CLIENT_URL,
+  API_PAYPAL,
+  AUTH_PAYPAL,
+} = require("../../utils/envs.js");
 
-const auth = { user: CLIENT, pass: SECRET };
 
 router.post("/", async (req, res) => {
   const { price } = req.body;
@@ -16,22 +21,31 @@ router.post("/", async (req, res) => {
       },
     ],
     application_context: {
-      brand_name: `FoodExpress.app`,
+      brand_name: "FoodExpress.app",
       landing_page: "NO_PREFERENCE",
       user_action: "PAY_NOW",
-      return_url: `${CLIENT_URL}/passed`, // Url despues de realizar el pago
-      cancel_url: `${CLIENT_URL}/denegated`, // Url despues de realizar el pago
+      return_url: `${CLIENT_URL}/passed`,
+      cancel_url: `${CLIENT_URL}/denegated`,
     },
   };
-  
-  request.post(`${PAYPAL_API}/v2/checkout/orders`, {
-      auth,
+
+  try{
+    request.post(`${API_PAYPAL}/v2/checkout/orders`, {
+      AUTH_PAYPAL,
       body,
       json: true,
-    }, (err, response) => {
-      res.json({ data: response.body });
-    }
-  );
+    }, (_, response) => {
+      return res
+        .status(StatusCodes.ACCEPTED)
+        .send({ data: response.body })
+      ;
+    });
+  } catch (error) {
+    return res
+      .status(error.status || StatusCodes.INTERNAL_SERVER_ERROR)
+      .send(error.reason || error)
+    ;
+  }
 });
 
 module.exports = router;
