@@ -1,13 +1,13 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const cors = require("cors");
 const morgan = require('morgan');
-const routes = require('./routes/index.js');
 
-require("dotenv").config();
-const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
+const { CLIENT_URL } = require("./utils/envs.js");
 
 require('./db.js');
+const routes = require('./routes/index.js');
 const server = express();
 
 server.name = 'food-express-api';
@@ -16,6 +16,7 @@ server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(cookieParser());
 server.use(morgan('dev'));
+server.use(cors());
 server.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', CLIENT_URL);
   res.header('Access-Control-Allow-Credentials', 'true');
