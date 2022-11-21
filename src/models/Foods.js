@@ -38,6 +38,16 @@ module.exports = (sequelize) => {
       ),
       allowNull: false,
     },
+    category: {
+      type: DataTypes.ENUM(
+        "Main Course",
+        "Appetizer",
+        "Salad",
+        "Dessert",
+        "Beverage"
+      ),
+      allowNull: false,
+    },
     offer: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
