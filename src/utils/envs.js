@@ -11,13 +11,20 @@ const AUTH_PAYPAL = { user: CLIENT, pass: SECRET };
 const API_PAYPAL = "https://api-m.sandbox.paypal.com"; 
 
 /**********     MERCADO PAGO    ***********/
-const API_MERCADO = "https://api-m.sandbox.paypal.com"; 
+const API_MERCADO = "https://api-m.sandbox.paypal.com";
+const TOKEN_MERCADO = process.env.ACCESS_TOKEN;
 
 
 module.exports = {
+  // URLS
   CLIENT_URL,
   PORT,
+
+  // PAYPAL
   AUTH_PAYPAL,
   API_PAYPAL,
+
+  // MERCADO PAGO
   API_MERCADO,
+  TOKEN_MERCADO,
 };

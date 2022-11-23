@@ -1,5 +1,6 @@
 const axios = require("axios");
-const { API_MERCADO, CLIENT_URL } = require("../utils/envs.js");
+const { StatusCodes } = require("http-status-codes");
+const { API_MERCADO, CLIENT_URL, TOKEN_MERCADO } = require("../utils/envs.js");
 
 const createPayment = async ( data ) => {
   try {
@@ -17,7 +18,7 @@ const createPayment = async ( data ) => {
       ],
       back_urls: {
         failure: `${CLIENT_URL}/denegated`,
-        pending: "/pending",
+        pending: `${CLIENT_URL}/pending`,
         success: `${CLIENT_URL}/passed`,
       },
     };
@@ -25,9 +26,9 @@ const createPayment = async ( data ) => {
     const payment = await axios.post(API_MERCADO, body, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+        Authorization: `Bearer ${TOKEN_MERCADO}`,
       },
-    });
+    }).catch(err => console.log(err));
 
     return payment.data;
   } catch (error) {

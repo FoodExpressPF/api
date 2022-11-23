@@ -12,14 +12,11 @@ router.post("/", async (req, res) => {
   const { price } = req.body;
   const body = {
     intent: "CAPTURE",
-    purchase_units: [
-      {
-        amount: {
-          currency_code: "USD",
-          value: price,
-        },
-      },
-    ],
+    purchase_units: [{
+      amount: {
+        currency_code: "USD",
+        value: price,
+    }}],
     application_context: {
       brand_name: "FoodExpress.app",
       landing_page: "NO_PREFERENCE",
@@ -30,20 +27,21 @@ router.post("/", async (req, res) => {
   };
 
   try{
-    request.post(`${API_PAYPAL}/v2/checkout/orders`, {
+    const reques = request.post(`${API_PAYPAL}/v2/checkout/orders`, {
       AUTH_PAYPAL,
       body,
       json: true,
     }, (_, response) => {
-      return res
-        .status(StatusCodes.ACCEPTED)
-        .send({ data: response.body })
-      ;
+      return response.body;
     });
+    return res
+      .status(StatusCodes.ACCEPTED)
+      .send({ data: reques })
+    ;
   } catch (error) {
     return res
       .status(error.status || StatusCodes.INTERNAL_SERVER_ERROR)
-      .send(error.reason || error)
+      .send({ message: error.message || error })
     ;
   }
 });
