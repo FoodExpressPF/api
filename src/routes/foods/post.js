@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { StatusCodes } = require("http-status-codes");
 const postFood = require("../../controllers/postFood.js");
-
+const {Foods} = require('../../db.js'); 
 router.post("/", async (req, res) => {
   const { type_user } = req.body;
   const foodInfo = req.body;
