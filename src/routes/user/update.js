@@ -8,10 +8,10 @@ router.put("/:action", async(req, res)=>{
     let update;
     try {
         if(action == "delete"){
-            update = await User.update({visible: false}, {where: {visible: true, id: id}});
+            update = await User.update({banned: false}, {where: {banned: true, id: id}});
         }
         if(action == "activate"){
-            update = await User.update({visible: true}, {where: {visible: false, id: id}});
+            update = await User.update({banned: true}, {where: {banned: false, id: id}});
         }
         if(action == "changefields"){
             update = await User.update({name: name, direction: direction, number_phone: number_phone}, {where: {id: id}});

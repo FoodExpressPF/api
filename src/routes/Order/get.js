@@ -7,27 +7,23 @@ router.get("/", async (req, res) => {
 
   try {
     orders = await Order.findAll();
-
     res.status(200).json(orders);
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
 });
 
-/*router.get("/:id", async (req, res) => {
-  const { id } = req.params;
-
+router.get("/:userId", async (req, res) => {
+  const { userId } = req.params;
+  
   try {
-    const order_user = await Foods_Order.findAll({
-      where: { userId: id },
-      include: Order,
-    });
-    return res.status(200).res("order");
+    const userOrders = await Order.findAll({where: { userId: userId }});
+    return res.status(200).json(userOrders);
   } catch (error) {
     return res
       .status(error.status || StatusCodes.BAD_REQUEST)
       .send(error.reason || error);
   }
 });
-*/
+
 module.exports = router;

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { User} = require('../../db');
+const { User, Order, Foods} = require('../../db');
 const { ReasonPhrases, StatusCodes } = require("http-status-codes");
 
 
