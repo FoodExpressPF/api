@@ -8,7 +8,7 @@ const {
 } = require("../../utils/envs.js");
 
 
-router.post("/", async (req, res) => {
+router.post("/", (req, res) => {
   const { price } = req.body;
   const body = {
     intent: "CAPTURE",
@@ -27,17 +27,16 @@ router.post("/", async (req, res) => {
   };
 
   try{
-    const reques = request.post(`${API_PAYPAL}/v2/checkout/orders`, {
-      AUTH_PAYPAL,
+    request.post(`${API_PAYPAL}/v2/checkout/orders`, {
+      auth: AUTH_PAYPAL,
       body,
       json: true,
-    }, (_, response) => {
-      return response.body;
+    }, (err, response) => {
+      res
+        .status(StatusCodes.ACCEPTED)
+        .json({ data: response.body })
+      ;
     });
-    return res
-      .status(StatusCodes.ACCEPTED)
-      .send({ data: reques })
-    ;
   } catch (error) {
     return res
       .status(error.status || StatusCodes.INTERNAL_SERVER_ERROR)
