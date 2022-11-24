@@ -10,8 +10,9 @@ router.post("/", async (req, res) => {
       coments,
       address,
       total,
-      userId
+      userId,
     });
+    console.log(newOrder);
     res.status(StatusCodes.ACCEPTED).json({ Order: "created" });
   } catch (error) {
     res.status(StatusCodes.BAD_REQUEST).json({ error });
