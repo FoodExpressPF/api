@@ -32,14 +32,18 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    visible: {
+    banned: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: true,
+      defaultValue: false,
     },
     type_user: {
       type: DataTypes.ENUM("Admin", "Client"),
       allowNull: false,
     },
-  });
+  }
+  ,{
+    paranoid: true,
+    timestamps: true
+  }
+  );
 };
