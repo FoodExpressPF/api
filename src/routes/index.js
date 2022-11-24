@@ -6,6 +6,7 @@ const favoritesRoute = require("./favorites/index.js");
 const sendEmailRoute = require("./send-email/index.js");
 const paymentsRoute = require("./payments/index.js");
 const ordersRoute = require("./Order/index.js");
+const reviewsRoute = require('./reviews/index.js');
 
 router.use("/foods", foodsRoute);
 router.use("/user", userRoute);
@@ -13,5 +14,5 @@ router.use("/favorites", favoritesRoute);
 router.use("/send-email", sendEmailRoute);
 router.use("/payments", paymentsRoute);
 router.use("/orders", ordersRoute);
-
+router.use('/reviews', reviewsRoute);
 module.exports = router;

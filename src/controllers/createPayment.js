@@ -1,5 +1,6 @@
 const axios = require("axios");
 const { API_MERCADO, CLIENT_URL } = require("../utils/envs.js");
+const { StatusCodes } = require("http-status-codes");
 
 const createPayment = async ( data ) => {
   try {

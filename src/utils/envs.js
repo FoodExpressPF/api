@@ -13,6 +13,7 @@ const API_PAYPAL = "https://api-m.sandbox.paypal.com";
 /**********     MERCADO PAGO    ***********/
 const API_MERCADO = "https://api-m.sandbox.paypal.com"; 
 
+ACCESS_TOKEN="TEST-6288787192624842-111519-317756c2bb1a667d0be520b353a3d6e8-1239962089";
 
 module.exports = {
   CLIENT_URL,

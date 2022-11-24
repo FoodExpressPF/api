@@ -4,12 +4,12 @@ const { ReasonPhrases, StatusCodes } = require("http-status-codes");
 
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
-  const { name, price, description, rating, image, type, category, offer } =
+  const { name, price, description, rating, image, type, category, offer, onStock } =
     req.body;
   let update;
   try {
     update = await Foods.update(
-      { name, price, description, rating, image, type, category, offer },
+      { name, price, description, rating, image, type, category, offer, onStock },
       { where: { id } }
     );
 

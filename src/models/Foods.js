@@ -53,5 +53,9 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: false,
     },
+    onStock: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    }
   });
 };
