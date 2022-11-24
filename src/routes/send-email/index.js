@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const nodemailer = require("nodemailer");
 
-
 let mensajeHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -100,11 +99,10 @@ let mensajeHtml = `<!DOCTYPE html>
         </div>
     </div>
 </body>
-</html>`
-
+</html>`;
 
 router.post("/", (req, res) => {
-  const { user, subject, text, } = req.body;
+  const { user, subject, text, html } = req.body;
   let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     post: 587,
@@ -118,7 +116,7 @@ router.post("/", (req, res) => {
     to: user,
     subject: subject,
     text: text,
-    html: mensajeHtml,
+    html: html,
   };
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
