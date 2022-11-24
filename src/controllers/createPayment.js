@@ -8,8 +8,8 @@ const createPayment = async ( data ) => {
       payer_email: "test_user_46945293@testuser.com",
       items: [
         {
-          title: "total",
-          description: "de aca pa google",
+          title: "Total",
+          description: "FoodExpress mercado pago payment",
           picture_url: "http://www.myapp.com/myimage.jpg",
           category_id: "category123",
           quantity: 1,
@@ -26,15 +26,15 @@ const createPayment = async ( data ) => {
     const payment = await axios.post(API_MERCADO, body, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${TOKEN_MERCADO}`,
-      },
-    }).catch(err => console.log(err));
+        Authorization: `${TOKEN_MERCADO}`,
+    }});
 
     return payment.data;
+
   } catch (error) {
     throw {
-      status: error.status || StatusCodes.BAD_REQUEST,
-      reason: error.reason || error,
+      status: error.status || StatusCodes.INTERNAL_SERVER_ERROR,
+      message: error.message || error,
     }  
   }
 };
