@@ -14,6 +14,7 @@ const API_PAYPAL = "https://api-m.sandbox.paypal.com";
 const TOKEN_MERCADO = process.env.ACCESS_TOKEN;
 const API_MERCADO = "https://api.mercadopago.com/checkout/preferences";
 
+ACCESS_TOKEN="TEST-6288787192624842-111519-317756c2bb1a667d0be520b353a3d6e8-1239962089";
 
 module.exports = {
   // URLS
