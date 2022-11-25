@@ -1,40 +1,37 @@
 const axios = require("axios");
-const { API_MERCADO, CLIENT_URL } = require("../utils/envs.js");
 const { StatusCodes } = require("http-status-codes");
+const { API_MERCADO, CLIENT_URL, TOKEN_MERCADO } = require("../utils/envs.js");
 
 const createPayment = async ( data ) => {
   try {
     const body = {
       payer_email: "test_user_46945293@testuser.com",
-      items: [
-        {
-          title: "total",
-          description: "de aca pa google",
-          picture_url: "http://www.myapp.com/myimage.jpg",
-          category_id: "category123",
-          quantity: 1,
-          unit_price: data,
-        },
-      ],
+      items: [{
+        title: "Total",
+        description: "FoodExpress mercado pago payment",
+        picture_url: "http://www.myapp.com/myimage.jpg",
+        category_id: "category123",
+        quantity: 1,
+        unit_price: data.price,
+      }],
       back_urls: {
         failure: `${CLIENT_URL}/denegated`,
-        pending: "/pending",
+        pending: `${CLIENT_URL}/pending`,
         success: `${CLIENT_URL}/passed`,
       },
     };
-
+    
     const payment = await axios.post(API_MERCADO, body, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
-      },
-    });
-
+        Authorization: `Bearer ${TOKEN_MERCADO}`,
+    }});
     return payment.data;
+
   } catch (error) {
     throw {
-      status: error.status || StatusCodes.BAD_REQUEST,
-      reason: error.reason || error,
+      status: error.status || StatusCodes.INTERNAL_SERVER_ERROR,
+      message: error.message || error,
     }  
   }
 };
