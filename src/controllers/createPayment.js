@@ -6,29 +6,26 @@ const createPayment = async ( data ) => {
   try {
     const body = {
       payer_email: "test_user_46945293@testuser.com",
-      items: [
-        {
-          title: "Total",
-          description: "FoodExpress mercado pago payment",
-          picture_url: "http://www.myapp.com/myimage.jpg",
-          category_id: "category123",
-          quantity: 1,
-          unit_price: data,
-        },
-      ],
+      items: [{
+        title: "Total",
+        description: "FoodExpress mercado pago payment",
+        picture_url: "http://www.myapp.com/myimage.jpg",
+        category_id: "category123",
+        quantity: 1,
+        unit_price: data.price,
+      }],
       back_urls: {
         failure: `${CLIENT_URL}/denegated`,
         pending: `${CLIENT_URL}/pending`,
         success: `${CLIENT_URL}/passed`,
       },
     };
-
+    
     const payment = await axios.post(API_MERCADO, body, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `${TOKEN_MERCADO}`,
+        Authorization: `Bearer ${TOKEN_MERCADO}`,
     }});
-
     return payment.data;
 
   } catch (error) {

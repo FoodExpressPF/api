@@ -5,7 +5,7 @@ const createPayment = require("../../controllers/createPayment.js");
 router.post("/", async (req, res) => {
   const { price } = req.body;
   try {
-    const paymentData = await createPayment(price);
+    const paymentData = await createPayment({price});
     if(!paymentData) throw {
       status: StatusCodes.BAD_REQUEST,
       message: "Payment Data not available",
