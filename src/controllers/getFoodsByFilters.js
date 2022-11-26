@@ -1,9 +1,9 @@
 const { StatusCodes } = require("http-status-codes");
-const { Foods } = require("../db");
+const { Foods, Reviews } = require("../db");
 
 const getFoodsByFilters = async ({ id, name, type, offer, sortby, asc }) => {
   try {
-    const allFoods = await Foods.findAll();
+    const allFoods = await Foods.findAll({include: Reviews});
     let filteredFoods = [...allFoods];
     if (!!id) {
       const foundFood = allFoods.find((food) => food.id == id);
