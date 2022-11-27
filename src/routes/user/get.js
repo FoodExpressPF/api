@@ -4,7 +4,7 @@ const { User, Order, Foods} = require('../../db');
 const { ReasonPhrases, StatusCodes } = require("http-status-codes");
 
 router.get("/", async (req, res) => {
-  const { email } = req.body;
+  const { email } = req.query;
   let user;
   try {
     if (email) user = await User.findOne({ where: { email: email } });
