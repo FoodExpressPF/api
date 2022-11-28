@@ -17,7 +17,7 @@ router.put("/:action", async(req, res)=>{
             update = await User.update({name: name, direction: direction, number_phone: number_phone}, {where: {id: id}});
         }
         if(update[0] == 0) throw({status: StatusCodes.NOT_MODIFIED, reason: ReasonPhrases.NOT_MODIFIED});
-        return res.status(StatusCodes.OK).json({message: "Updated user status"});
+        return res.status(StatusCodes.OK).json({message: "Done!"});
     } catch (error) {
         res.status(404).json({error});
     }

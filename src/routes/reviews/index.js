@@ -12,7 +12,6 @@ router.get("/", async (req, res)=>{
 
 router.get('/:foodId',async (req, res)=>{
     const {foodId} = req.params;
-    console.log(foodId);
     try {
         const reviews = await Reviews.findAll({where: {foodId},include: User});
         res.status(200).json(reviews);
