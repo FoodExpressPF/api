@@ -11,11 +11,13 @@ router.post("/", async (req, res) => {
       address,
       total,
       userId,
-      FoodsToOrder 
+      FoodsToOrder,
     });
     newOrder.setFoods(FoodsToOrder);
-    
-    res.status(StatusCodes.ACCEPTED).json({ Order: "created", id: newOrder.id });
+
+    res
+      .status(StatusCodes.ACCEPTED)
+      .json({ Order: "created", id: newOrder.id });
   } catch (error) {
     res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
   }
