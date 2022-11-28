@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { Foods } = require("../../db");
 const { ReasonPhrases, StatusCodes } = require("http-status-codes");
+const { cloudinary } = require("../utils/cloudinary");
 
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
