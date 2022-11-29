@@ -4,6 +4,7 @@ const { ReasonPhrases, StatusCodes } = require("http-status-codes");
 
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
+  console.log(req.params)
   try {
     const deleteFood = Foods.destroy({ where: { id } });
     res.status(200).json({ Delete: "Ok", ...deleteFood });
