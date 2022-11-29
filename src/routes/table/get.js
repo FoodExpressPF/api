@@ -13,12 +13,12 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
-  const { id } = req.query;
+router.get("/:userId", async (req, res) => {
+  const { userId } = req.params;
 
   try {
     const userTables = await Table.findAll({
-      where: { id: id },
+      where: { reserve_owner: userId },
       include: Foods,
     });
     return res.status(200).json(userTables);
