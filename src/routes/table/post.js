@@ -4,7 +4,6 @@ const { ReasonPhrases, StatusCodes } = require("http-status-codes");
 
 router.post("/", async (req, res) => {
   const {
-    number,
     status,
     capacity,
     timestamps,
