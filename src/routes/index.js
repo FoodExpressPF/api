@@ -8,6 +8,7 @@ const paymentsRoute = require("./payments/index.js");
 const ordersRoute = require("./Order/index.js");
 const reviewsRoute = require("./reviews/index.js");
 const tableRoute = require("./table/index.js");
+const dietTypesRoute = require("./dietTypes/index")
 
 router.use("/foods", foodsRoute);
 router.use("/user", userRoute);
@@ -17,4 +18,5 @@ router.use("/payments", paymentsRoute);
 router.use("/orders", ordersRoute);
 router.use("/reviews", reviewsRoute);
 router.use("/tables", tableRoute);
+router.use("/types", dietTypesRoute)
 module.exports = router;
