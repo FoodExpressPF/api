@@ -2,18 +2,22 @@ const router = require("express").Router();
 const { StatusCodes } = require("http-status-codes");
 const createPayment = require("../../controllers/createPayment.js");
 
-router.post("/", (req, res) => {
-  const { total } = req.body;
+router.post("/", async (req, res) => {
+  const { price } = req.body;
   try {
-    const paymentData = createPayment(total);
+    const paymentData = await createPayment({price});
     if(!paymentData) throw {
       status: StatusCodes.BAD_REQUEST,
-      reason: "Payment Data not available",
+      message: "Payment Data not available",
     };
+    return res
+      .status(StatusCodes.ACCEPTED)
+      .send(paymentData)
+    ;
   } catch (error) {
     return res
-      .status(error.status || StatusCodes.INTERNAL_SERVER_ERROR)
-      .send(error.reason || error)
+      .status(error.status || StatusCodes.BAD_REQUEST)
+      .send(error.message || error)
     ;
   }
 });

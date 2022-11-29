@@ -35,7 +35,7 @@ let capsEntries = entries.map((entry) => [
 ]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-const { Foods, Reviews, User, Table, Order } = sequelize.models;
+const { Foods, Reviews, User, Table, Order, DietTypes } = sequelize.models;
 
 Order.belongsTo(User);
 User.hasMany(Order);
@@ -43,14 +43,19 @@ User.hasMany(Order);
 Order.belongsToMany(Foods, { through: "Foods_Order" });
 Foods.belongsToMany(Order, { through: "Foods_Order" });
 
-Reviews.hasOne(Foods, { through: "Food_review" });
-Foods.belongsToMany(Reviews, { through: "Food_review" });
+Reviews.belongsTo(Foods, { through: "Food_Review" });
+Foods.belongsToMany(Reviews, { through: "Food_Review" });
+User.hasMany(Reviews);
+Reviews.belongsTo(User);
 
 Foods.belongsToMany(User, { through: "Favorites" });
 User.belongsToMany(Foods, { through: "Favorites" });
 
-Table.belongsToMany(Foods, { through: "Table-food" });
-Foods.belongsToMany(Table, { through: "Table-food" });
+Table.belongsToMany(Foods, { through: "Table-Food" });
+Foods.belongsToMany(Table, { through: "Table-Food" });
+
+Foods.belongsToMany(DietTypes, { through: "Foods_DietTypes" });
+DietTypes.belongsToMany(Foods, { through: "Foods_DietTypes" });
 
 
 module.exports = {
