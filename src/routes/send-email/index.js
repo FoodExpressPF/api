@@ -107,8 +107,8 @@ router.post("/", (req, res) => {
     host: "smtp.gmail.com",
     post: 587,
     auth: {
-      user: "cheshiree72@gmail.com",
-      pass: "ioixgkmvtgpqvkko",
+      user: "foodexpresssociety@gmail.com",
+      pass: "lzilnaxnnrolxuln",
     },
   }); //por req debera llegar  un objeto con user.email e info del mensaje
   let mailOptions = {
