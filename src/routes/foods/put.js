@@ -1,12 +1,14 @@
 const router = require("express").Router();
-const { Foods } = require("../../db");
+const { Foods, DietTypes } = require("../../db");
 const { ReasonPhrases, StatusCodes } = require("http-status-codes");
 const { cloudinary } = require("../../utils/cloudinary");
+const { Op } = require("sequelize");
 
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
-  const { name, price, description, rating, image, type, category, offer, onStock } =
+  const { name, price, description, rating, image, type, dietTypes, category, offer, onStock } =
     req.body;
+    console.log('body',req.body)
 
   //Cloudinary implementation
   const loadedImage = await cloudinary.uploader
@@ -18,12 +20,17 @@ router.put("/:id", async (req, res) => {
       { name, price, description, rating, image:loadedImage.url, type, category, offer, onStock },
       { where: { id } }
     );
+    
+  const findedFood = await Foods.findOne({where: { id }})
+  await findedFood.setDietTypes([])
+  const dietTypesDb =  await DietTypes.findAll({ where: {name: {[Op.in]: dietTypes}} })
+  await findedFood.addDietTypes(dietTypesDb)
 
-    if (update[0] == 0)
-      throw {
-        status: StatusCodes.NOT_MODIFIED,
-        reason: ReasonPhrases.NOT_MODIFIED,
-      };
+    // if (update[0] == 0)
+    //   throw {
+    //     status: StatusCodes.NOT_MODIFIED,
+    //     reason: ReasonPhrases.NOT_MODIFIED,
+    //   };
     return res.status(StatusCodes.OK).json({ message: "Updated food" });
   } catch (error) {
     res.status(404).json({ error });
