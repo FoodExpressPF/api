@@ -7,7 +7,7 @@ router.delete("/:id", async (req, res) => {
   console.log(req.params)
   try {
     const deleteFood = Foods.destroy({ where: { id } });
-    res.status(200).json({ Delete: "Ok", ...deleteFood });
+    res.status(200).json({ message: "Product deleted", ...deleteFood });
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
