@@ -45,4 +45,14 @@ router.post('/',async (req, res)=>{
     }
 });
 
+router.delete('/', async(req, res)=>{
+    const {foodId, userId} = req.body;
+    try {
+        const deleteReview = await Reviews.destroy({where: { userId }});
+        res.status(200).json(deleteReview);
+    } catch (error) {
+        res.status(404).json({error: error.message});
+    }
+});
+
 module.exports = router;
