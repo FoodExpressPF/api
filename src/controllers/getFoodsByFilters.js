@@ -1,9 +1,17 @@
 const { StatusCodes } = require("http-status-codes");
-const { Foods, Reviews } = require("../db");
+const { Foods, Reviews, DietTypes } = require("../db");
 
-const getFoodsByFilters = async ({ id, name, type, offer, sortby, asc }) => {
+const getFoodsByFilters = async ({ id, name, dietTypes, offer, sortby, asc }) => {
   try {
-    const allFoods = await Foods.findAll({include: Reviews});
+    const allFoods = await Foods.findAll({include: [Reviews, {
+      model: DietTypes,
+      attributes: ['name'],
+      through:{
+          attributes:[]
+      }
+  }]
+});
+
     let filteredFoods = [...allFoods];
     if (!!id) {
       const foundFood = allFoods.find((food) => food.id == id);
@@ -16,10 +24,19 @@ const getFoodsByFilters = async ({ id, name, type, offer, sortby, asc }) => {
         return foodName.includes(name.toUpperCase());
       });
 
-    if (!!type)
-      filteredFoods = filteredFoods.filter((food) => {
-        return food.type.includes(type);
-      });
+
+      if (!!dietTypes){
+        filteredFoods = filteredFoods.filter((food) =>{
+          const mappedFoods = food.dataValues.dietTypes.map(e=>
+          e.dataValues.name)
+
+          // return mappedFoods.includes(dietType)
+          for (const i of mappedFoods) {
+            if(dietTypes.split(',').includes(i))return true
+          }
+          return false
+        })
+      };
 
     switch (offer) {
       case "yes":

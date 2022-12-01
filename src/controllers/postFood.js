@@ -1,6 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const { cloudinary } = require("../utils/cloudinary");
-const { Foods } = require("../db");
+const { Foods, DietTypes } = require("../db");
+const { Op } = require("sequelize");
 
 const postFood = async ({
   name,
@@ -11,6 +12,7 @@ const postFood = async ({
   type,
   category,
   offer,
+  dietTypes
 }) => {
   
   try {
@@ -31,7 +33,7 @@ const postFood = async ({
     const loadedImage = await cloudinary.uploader
       .upload(image, {upload_preset: 'foodExpress'});
 
-    await Foods.create({
+    const createdFood = await Foods.create({
       name,
       price: parseFloat(price),
       description,
@@ -41,6 +43,11 @@ const postFood = async ({
       category,
       offer,
     });
+
+    const dietTypesDb =  await DietTypes.findAll({ where: {name: {[Op.in]: dietTypes}} })
+
+    await createdFood.addDietTypes(dietTypesDb)
+    return createdFood
 
   } catch (error) {
     throw {
