@@ -11,13 +11,14 @@ router.put("/:id", async (req, res) => {
     console.log('body',req.body)
 
   //Cloudinary implementation
-  const loadedImage = await cloudinary.uploader
-  .upload(image, {upload_preset: 'foodExpress'});
-
-  let update;
+  
+  
+  let loadedImage;
   try {
-    update = await Foods.update(
-      { name, price, description, rating, image:loadedImage.url, type, category, offer, onStock },
+    if(image) loadedImage = await cloudinary.uploader.upload(image, {upload_preset: 'foodExpress'}).url;
+    const selectedFood = await Foods.findOne({where: {id}});
+    const update = await Foods.update(
+      { name, price, description, rating, image: loadedImage || selectedFood.image  , type, category, offer, onStock },
       { where: { id } }
     );
     
@@ -33,7 +34,7 @@ router.put("/:id", async (req, res) => {
     //   };
     return res.status(StatusCodes.OK).json({ message: "Updated food" });
   } catch (error) {
-    res.status(404).json({ error });
+    res.status(404).json({ error: error.message});
   }
 });
 
